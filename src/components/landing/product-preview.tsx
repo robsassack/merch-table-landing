@@ -77,7 +77,7 @@ export function ProductPreview() {
             </div>
 
             {/* Screenshot */}
-            <div className="relative aspect-[16/10] bg-background">
+            <div className="relative aspect-16/10 bg-background">
               {activeScreenshot && (
                 <img
                   src={activeScreenshot.src}
