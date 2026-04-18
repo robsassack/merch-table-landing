@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
+import type { KeyboardEvent } from 'react'
 
 const screenshots = [
   {
@@ -23,7 +24,29 @@ const screenshots = [
 
 export function ProductPreview() {
   const [activeTab, setActiveTab] = useState('storefront')
-  const activeScreenshot = screenshots.find((s) => s.id === activeTab)
+  const tabRefs = useRef<Array<HTMLButtonElement | null>>([])
+
+  const handleTabKeyDown = (event: KeyboardEvent<HTMLButtonElement>, index: number) => {
+    const lastIndex = screenshots.length - 1
+    let nextIndex = index
+
+    if (event.key === 'ArrowRight') {
+      nextIndex = index === lastIndex ? 0 : index + 1
+    } else if (event.key === 'ArrowLeft') {
+      nextIndex = index === 0 ? lastIndex : index - 1
+    } else if (event.key === 'Home') {
+      nextIndex = 0
+    } else if (event.key === 'End') {
+      nextIndex = lastIndex
+    } else {
+      return
+    }
+
+    event.preventDefault()
+    const nextTab = screenshots[nextIndex]
+    setActiveTab(nextTab.id)
+    tabRefs.current[nextIndex]?.focus()
+  }
 
   return (
     <section className="py-24 md:py-32 bg-card/50">
@@ -40,11 +63,25 @@ export function ProductPreview() {
 
         {/* Tab Navigation */}
         <div className="flex justify-center mb-8">
-          <div className="inline-flex gap-1 p-1 rounded-lg bg-secondary">
-            {screenshots.map((screenshot) => (
+          <div
+            className="inline-flex gap-1 p-1 rounded-lg bg-secondary"
+            role="tablist"
+            aria-label="Product preview sections"
+          >
+            {screenshots.map((screenshot, index) => (
               <button
                 key={screenshot.id}
+                id={`preview-tab-${screenshot.id}`}
+                ref={(element) => {
+                  tabRefs.current[index] = element
+                }}
+                type="button"
+                role="tab"
+                aria-selected={activeTab === screenshot.id}
+                aria-controls={`preview-panel-${screenshot.id}`}
+                tabIndex={activeTab === screenshot.id ? 0 : -1}
                 onClick={() => setActiveTab(screenshot.id)}
+                onKeyDown={(event) => handleTabKeyDown(event, index)}
                 className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                   activeTab === screenshot.id
                     ? "bg-foreground text-background"
@@ -60,40 +97,47 @@ export function ProductPreview() {
         {/* Screenshot Display */}
         <div className="relative">
           {/* Browser Frame */}
-          <div className="rounded-xl border border-border bg-card overflow-hidden shadow-2xl">
-            {/* Browser Chrome */}
-            <div className="flex items-center gap-2 px-4 py-3 bg-secondary/50 border-b border-border">
-              <div className="flex gap-1.5">
-                <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                <div className="w-3 h-3 rounded-full bg-green-500/80" />
-              </div>
-              <div className="flex-1 flex justify-center">
-                <div className="px-4 py-1 rounded-md bg-background/50 text-xs text-muted-foreground">
-                  merch-table.yourstore.com
+          {screenshots.map((screenshot) => (
+            <figure
+              key={screenshot.id}
+              id={`preview-panel-${screenshot.id}`}
+              role="tabpanel"
+              aria-labelledby={`preview-tab-${screenshot.id}`}
+              tabIndex={activeTab === screenshot.id ? 0 : -1}
+              hidden={activeTab !== screenshot.id}
+              className="rounded-xl border border-border bg-card overflow-hidden shadow-2xl"
+            >
+              {/* Browser Chrome */}
+              <div className="flex items-center gap-2 px-4 py-3 bg-secondary/50 border-b border-border">
+                <div className="flex gap-1.5" aria-hidden="true">
+                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
                 </div>
+                <div className="flex-1 flex justify-center">
+                  <div className="px-4 py-1 rounded-md bg-background/50 text-xs text-muted-foreground">
+                    merch-table.yourstore.com
+                  </div>
+                </div>
+                <div className="w-12" aria-hidden="true" />
               </div>
-              <div className="w-12" />
-            </div>
 
-            {/* Screenshot */}
-            <div className="relative aspect-16/10 bg-background">
-              {activeScreenshot && (
+              {/* Screenshot */}
+              <div className="relative aspect-16/10 bg-background">
                 <img
-                  src={activeScreenshot.src}
-                  alt={activeScreenshot.label}
+                  src={screenshot.src}
+                  alt={`${screenshot.label} view of Merch Table`}
+                  loading={activeTab === screenshot.id ? 'eager' : 'lazy'}
                   className="h-full w-full object-cover object-top"
                 />
-              )}
-            </div>
-          </div>
+              </div>
 
-          {/* Caption */}
-          {activeScreenshot && (
-            <p className="text-center text-muted-foreground mt-6">
-              {activeScreenshot.description}
-            </p>
-          )}
+              {/* Caption */}
+              <figcaption className="text-center text-muted-foreground mt-6 px-6 pb-6">
+                {screenshot.description}
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </div>
     </section>

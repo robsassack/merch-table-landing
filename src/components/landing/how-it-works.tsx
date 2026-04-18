@@ -38,11 +38,11 @@ export function HowItWorks() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => (
-            <div key={index} className="relative">
+        <ol className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step) => (
+            <li key={step.number} className="relative">
               <div className="relative">
-                <span className="text-6xl font-bold text-secondary">
+                <span className="text-6xl font-bold text-muted-foreground" aria-hidden="true">
                   {step.number}
                 </span>
                 <h3 className="text-xl font-semibold mt-4 mb-2">{step.title}</h3>
@@ -50,9 +50,9 @@ export function HowItWorks() {
                   {step.description}
                 </p>
               </div>
-            </div>
+            </li>
           ))}
-        </div>
+        </ol>
       </div>
     </section>
   );

@@ -48,7 +48,7 @@ const features = [
 
 export function Features() {
   return (
-    <section id="features" className="scroll-mt-24 py-24 md:py-32">
+    <section id="features" className="scroll-mt-16 py-24 md:py-32">
       <div className="max-w-6xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-5xl font-bold mb-4 text-balance">
@@ -59,22 +59,22 @@ export function Features() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, index) => (
-            <div
-              key={index}
+        <ul className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feature) => (
+            <li
+              key={feature.title}
               className="group p-6 rounded-lg bg-card border border-border hover:border-accent/50 transition-colors"
             >
               <div className="w-10 h-10 rounded-md bg-secondary flex items-center justify-center mb-4 group-hover:bg-accent/10 transition-colors">
-                <feature.icon className="w-5 h-5 text-foreground group-hover:text-accent transition-colors" />
+                <feature.icon className="w-5 h-5 text-foreground group-hover:text-accent transition-colors" aria-hidden="true" />
               </div>
               <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
               <p className="text-muted-foreground text-sm leading-relaxed">
                 {feature.description}
               </p>
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       </div>
     </section>
   );

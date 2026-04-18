@@ -11,7 +11,7 @@ export function DemoSection() {
           <div className="relative z-10 p-8 md:p-16">
             <div className="max-w-3xl mx-auto text-center">
               <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-accent/10 border border-accent/20 mb-8">
-                <Play className="w-6 h-6 text-accent" />
+                <Play className="w-6 h-6 text-accent" aria-hidden="true" />
               </div>
 
               <h2 className="text-3xl md:text-5xl font-bold mb-4 text-balance">
@@ -27,8 +27,9 @@ export function DemoSection() {
                 rel="noopener noreferrer"
                 className="inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-base font-medium text-primary-foreground transition-colors hover:bg-primary/90"
               >
-                  Launch Demo
-                  <ExternalLink className="ml-2 h-4 w-4" />
+                Launch Demo
+                <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
 
               <p className="text-xs text-muted-foreground mt-4">

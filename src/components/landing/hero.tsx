@@ -2,7 +2,7 @@ import { ArrowRight, ExternalLink } from 'lucide-react'
 
 export function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[calc(100svh-4rem)] flex items-center justify-center overflow-hidden">
       {/* Background grid pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[4rem_4rem]" />
 
@@ -11,7 +11,7 @@ export function Hero() {
 
       <div className="relative z-10 max-w-5xl mx-auto px-6 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-secondary border border-border mb-8">
-          <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+          <span className="w-2 h-2 rounded-full bg-accent motion-safe:animate-pulse" aria-hidden="true" />
           <span className="text-sm text-muted-foreground">Self-hosted music sales platform</span>
         </div>
 
@@ -33,15 +33,16 @@ export function Hero() {
             rel="noopener noreferrer"
             className="inline-flex h-12 items-center justify-center rounded-md bg-primary px-8 text-base font-medium text-primary-foreground transition-colors hover:bg-primary/90"
           >
-              View Demo
-              <ExternalLink className="ml-2 h-4 w-4" />
+            View Demo
+            <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
+            <span className="sr-only"> (opens in a new tab)</span>
           </a>
           <a
             href="#features"
             className="inline-flex h-12 items-center justify-center rounded-md border border-border bg-background px-8 text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground"
           >
-              Learn More
-              <ArrowRight className="ml-2 h-4 w-4" />
+            Learn More
+            <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
           </a>
         </div>
 
