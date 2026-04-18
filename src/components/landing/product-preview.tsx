@@ -96,48 +96,62 @@ export function ProductPreview() {
 
         {/* Screenshot Display */}
         <div className="relative">
-          {/* Browser Frame */}
-          {screenshots.map((screenshot) => (
-            <figure
-              key={screenshot.id}
-              id={`preview-panel-${screenshot.id}`}
-              role="tabpanel"
-              aria-labelledby={`preview-tab-${screenshot.id}`}
-              tabIndex={activeTab === screenshot.id ? 0 : -1}
-              hidden={activeTab !== screenshot.id}
-              className="rounded-xl border border-border bg-card overflow-hidden shadow-2xl"
-            >
-              {/* Browser Chrome */}
-              <div className="flex items-center gap-2 px-4 py-3 bg-secondary/50 border-b border-border">
-                <div className="flex gap-1.5" aria-hidden="true">
-                  <div className="w-3 h-3 rounded-full bg-red-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
-                  <div className="w-3 h-3 rounded-full bg-green-500/80" />
-                </div>
-                <div className="flex-1 flex justify-center">
-                  <div className="px-4 py-1 rounded-md bg-background/50 text-xs text-muted-foreground">
-                    merch-table.yourstore.com
-                  </div>
-                </div>
-                <div className="w-12" aria-hidden="true" />
+          <div className="rounded-xl border border-border bg-card overflow-hidden shadow-2xl">
+            {/* Browser Chrome */}
+            <div className="flex items-center gap-2 px-4 py-3 bg-secondary/50 border-b border-border">
+              <div className="flex gap-1.5" aria-hidden="true">
+                <div className="w-3 h-3 rounded-full bg-red-500/80" />
+                <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
+                <div className="w-3 h-3 rounded-full bg-green-500/80" />
               </div>
-
-              {/* Screenshot */}
-              <div className="relative aspect-16/10 bg-background">
-                <img
-                  src={screenshot.src}
-                  alt={`${screenshot.label} view of Merch Table`}
-                  loading={activeTab === screenshot.id ? 'eager' : 'lazy'}
-                  className="h-full w-full object-cover object-top"
-                />
+              <div className="flex-1 flex justify-center">
+                <div className="px-4 py-1 rounded-md bg-background/50 text-xs text-muted-foreground">
+                  merch-table.yourstore.com
+                </div>
               </div>
+              <div className="w-12" aria-hidden="true" />
+            </div>
 
-              {/* Caption */}
-              <figcaption className="text-center text-muted-foreground mt-6 px-6 pb-6">
+            {/* Screenshot Panels */}
+            <div className="relative aspect-16/10 bg-background">
+              {screenshots.map((screenshot) => (
+                <div
+                  key={screenshot.id}
+                  id={`preview-panel-${screenshot.id}`}
+                  role="tabpanel"
+                  aria-labelledby={`preview-tab-${screenshot.id}`}
+                  aria-hidden={activeTab === screenshot.id ? undefined : true}
+                  tabIndex={activeTab === screenshot.id ? 0 : -1}
+                  className={`absolute inset-0 motion-safe:transition-opacity motion-safe:duration-200 motion-safe:ease-out motion-reduce:transition-none ${
+                    activeTab === screenshot.id
+                      ? 'opacity-100'
+                      : 'opacity-0 pointer-events-none'
+                  }`}
+                >
+                  <img
+                    src={screenshot.src}
+                    alt={`${screenshot.label} view of Merch Table`}
+                    loading={activeTab === screenshot.id ? 'eager' : 'lazy'}
+                    className="h-full w-full object-cover object-top"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="relative mt-6 min-h-6" aria-live="polite">
+            {screenshots.map((screenshot) => (
+              <p
+                key={screenshot.id}
+                aria-hidden={activeTab === screenshot.id ? undefined : true}
+                className={`absolute inset-0 text-center text-muted-foreground motion-safe:transition-opacity motion-safe:duration-200 motion-safe:ease-out motion-reduce:transition-none ${
+                  activeTab === screenshot.id ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                }`}
+              >
                 {screenshot.description}
-              </figcaption>
-            </figure>
-          ))}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
     </section>
