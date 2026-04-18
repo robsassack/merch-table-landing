@@ -2,7 +2,7 @@ import { ArrowRight, ExternalLink } from 'lucide-react'
 
 export function Hero() {
   return (
-    <section className="relative min-h-[calc(100svh-4rem)] flex items-center justify-center overflow-hidden">
+    <section className="relative min-h-[calc(100svh-4rem)] flex items-start justify-center overflow-hidden pt-10 pb-8 md:items-center md:py-0">
       {/* Background grid pattern */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-size-[4rem_4rem]" />
 
